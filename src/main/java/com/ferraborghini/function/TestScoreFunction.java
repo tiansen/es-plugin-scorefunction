@@ -20,6 +20,9 @@ public class TestScoreFunction extends ScoreFunction {
         this.fieldValue = new float[100];
     }
 
+    /**
+     * 重写打分逻辑
+     */
     @Override
     public LeafScoreFunction getLeafScoreFunction(LeafReaderContext leafReaderContext) throws IOException {
         BinaryDocValues docValues = leafReaderContext.reader().getBinaryDocValues(fieldName);
@@ -31,8 +34,10 @@ public class TestScoreFunction extends ScoreFunction {
                 if (!docValues.advanceExact(docId)) {
                     throw new IllegalArgumentException("field not found");
                 }
+                /**
+                 * 计算向量距离等等
+                 */
                 byte[] storedValue = docValues.binaryValue().bytes;
-
                 return score;
             }
 
